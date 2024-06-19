@@ -1,0 +1,80 @@
+{
+    "clients": [
+        {
+            "id": "1",
+            "name": "John Doe",
+            "email": "john.doe@example.com",
+            "phone": "+1234567890"
+        },
+        {
+            "id": "2",
+            "name": "Jane Smith",
+            "email": "jane.smith@example.com",
+            "phone": "+1234567891"
+        },
+        {
+            "id": "3",
+            "name": "Alice Johnson",
+            "email": "alice.johnson@example.com",
+            "phone": "+1234567892"
+        },
+        {
+            "id": "4",
+            "name": "Bob Brown",
+            "email": "bob.brown@example.com",
+            "phone": "+1234567893"
+        },
+        {
+            "id": "5",
+            "name": "Charlie Davis",
+            "email": "charlie.davis@example.com",
+            "phone": "+1234567894"
+        },
+        {
+            "id": "6",
+            "name": "Dana White",
+            "email": "dana.white@example.com",
+            "phone": "+1234567895"
+        },
+        {
+            "id": "7",
+            "name": "Eve Martinez",
+            "email": "eve.martinez@example.com",
+            "phone": "+1234567896"
+        },
+        {
+            "id": "8",
+            "name": "Frank Harris",
+            "email": "frank.harris@example.com",
+            "phone": "+1234567897"
+        },
+        {
+            "id": "9",
+            "name": "Grace Clark",
+            "email": "grace.clark@example.com",
+            "phone": "+1234567898"
+        },
+        {
+            "id": "10",
+            "name": "Henry Lewis",
+            "email": "henry.lewis@example.com",
+            "phone": "+1234567899"
+        }
+    ],
+    "users": [
+        {
+            "id": "Cpo8ELTDnHPqPlPSLENM2UtnFzM2",
+            "name": "KirthanKumar",
+            "email": "skirthankumar13579@gmail.com",
+            "phone": "+1123456789",
+            "role": "admin"
+        },
+        {
+            "id": "bankManager1",
+            "name": "Manager One",
+            "email": "kirthan.bytedocker@gmail.com",
+            "phone": "+1123456790",
+            "role": "bankManager"
+        }
+    ]
+}
