@@ -1,67 +1,44 @@
-// UserDashboard.js (React component using modular SDK syntax)
+// pages/dashboard.js
+import React from "react";
+import Sidebar from "../components/Sidebar";
+import ClientList from "../components/ClientList";
+import Statistics from "../components/Statistics";
+import Charts from "../components/Charts";
+import ClientsTable from "../components/ClientsTable";
 
-import { useEffect, useState } from "react";
-import { useAuth } from "../contexts/AuthContext";
-import { useRouter } from "next/router";
-import {db} from "../firebase"; // Import Firestore instance (db)
-import { collection, query, where, getDocs } from "firebase/firestore";
-
-const UserDashboard = () => {
-  const { currentUser, logOut } = useAuth();
-  const router = useRouter();
-  const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (!currentUser) {
-      router.push("/login");
-      return;
-    }
-
-    const fetchUserData = async () => {
-      try {
-        const q = query(
-          collection(db, "users"),
-          where("email", "==", currentUser.email)
-        );
-        const querySnapshot = await getDocs(q);
-
-        if (!querySnapshot.empty) {
-          const userData = querySnapshot.docs[0].data();
-          setUserData(userData);
-        } else {
-          console.log("No matching documents.");
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUserData();
-  }, [currentUser, router]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
+const Dashboard = () => {
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>User Dashboard</h1>
-      <button onClick={logOut} style={{ marginBottom: "20px" }}>
-        Log Out
-      </button>
-      {userData && (
-        <div>
-          <h2>Welcome, {userData.name}</h2>
-          <p>Email: {userData.email}</p>
-          <p>Role: {userData.role}</p>
-          {/* Add more user-specific information and actions here */}
+    <div className="d-flex">
+      <Sidebar />
+      <div className="flex-grow-1">
+        <header className="d-flex justify-content-between align-items-center p-3 bg-light">
+          <h1>Dashboard</h1>
+          <div>
+            <button className="btn btn-primary mr-3">Add New</button>
+            <img
+              src="/path-to-user-profile.png"
+              alt="User"
+              className="rounded-circle"
+              width="50"
+              height="50"
+            />
+          </div>
+        </header>
+        <div className="p-3">
+          <div className="row">
+            <div className="col-md-3">
+              <ClientList />
+            </div>
+            <div className="col-md-9">
+              <Statistics />
+              <Charts />
+              <ClientsTable />
+            </div>
+          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };
 
-export default UserDashboard;
+export default Dashboard;
