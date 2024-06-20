@@ -2,6 +2,8 @@ import React from "react";
 import { Container } from "react-bootstrap";
 import DashboardHeader from "../components/DashboardHeader";
 import ClientTable from "../components/ClientTable";
+import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
 
 const clientsData = [
   {

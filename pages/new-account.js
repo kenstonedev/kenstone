@@ -7,7 +7,7 @@ const NewAccount = () => {
       <Row className="justify-content-center">
         <Col md={8}>
           <div className="text-center mb-4">
-            <img src="/kenstone-logo.png" alt="Kenstone Capital" />
+            <img src="/kenstone-capital.png" alt="Kenstone Capital" />
           </div>
           <Form>
             <Row className="mb-3">

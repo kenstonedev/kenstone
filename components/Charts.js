@@ -7,9 +7,10 @@ const Charts = () => {
       <div className="card p-3 mb-3">
         <h5>Client Overview</h5>
         <img
-          src="../public/profile-user.png"
+          src="/profile-user.png"
           alt="Client Overview"
           className="img-fluid"
+          width={10}
         />
       </div>
       <div className="card p-3 mb-3">

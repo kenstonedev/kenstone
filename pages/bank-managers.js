@@ -17,7 +17,8 @@ const BankManagers = () => {
   ];
 
   return (
-    <Container className="my-4">
+      <Container className="my-4">
+          
       <Row className="justify-content-between align-items-center mb-3">
         <Col>
           <h2>Bank Managers</h2>
