@@ -1,17 +1,7 @@
 // components/ClientsTable.js
 import React from "react";
 
-const ClientsTable = () => {
-  const clients = [
-    {
-      name: "Mr. Manish Kamal",
-      bank: "HDFC",
-      score: 540,
-      status: "Closed",
-      commission: "8%",
-    },
-    // Add more clients as needed
-  ];
+const ClientsTable = ({clients}) => {
 
   return (
     <div className="p-3">
@@ -28,11 +18,11 @@ const ClientsTable = () => {
         <tbody>
           {clients.map((client, index) => (
             <tr key={index}>
-              <td>{client.name}</td>
-              <td>{client.bank}</td>
-              <td>{client.score}</td>
-              <td>{client.status}</td>
-              <td>{client.commission}</td>
+              <td>{client.Name}</td>
+              <td>{client.Bank}</td>
+              <td>{client.Score}</td>
+              <td>{client.Status}</td>
+              <td>{client.Commission}%</td>
             </tr>
           ))}
         </tbody>

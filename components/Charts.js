@@ -3,7 +3,7 @@ import React from "react";
 import ClientsTable from "../components/ClientsTable";
 import SimpleLineChart from "./SimpleLineChart";
 
-const Charts = () => {
+const Charts = ({clients}) => {
   return (
     <div className="p-3">
       <div className="d-flex">
@@ -27,7 +27,7 @@ const Charts = () => {
         </div>
         <div className="card text-center m-2 p-3">
           <h5>Clients</h5>
-          <ClientsTable />
+          <ClientsTable clients={clients}/>
         </div>
       </div>
       <div className="d-flex">

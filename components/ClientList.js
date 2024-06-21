@@ -1,13 +1,7 @@
 // components/ClientList.js
 import React from "react";
 
-const ClientList = () => {
-  const clients = [
-    { name: "John Doe", email: "doejohn@gmail.com" },
-    { name: "John Doe", email: "doejohn@gmail.com" },
-    { name: "John Doe", email: "doejohn@gmail.com" },
-    { name: "John Doe", email: "doejohn@gmail.com" },
-  ];
+const ClientList = ({clients}) => {
 
   return (
     <div className="p-3 bg-light">
@@ -20,8 +14,8 @@ const ClientList = () => {
           ></div>
           {/* <img src={client.image} alt="" /> */}
           <div className="ml-3">
-            <p className="mb-0">{client.name}</p>
-            <p className="mb-0 text-muted">{client.email}</p>
+            <p className="mb-0">{client.Name}</p>
+            <p className="mb-0 text-muted">{client.Email}</p>
           </div>
           <button className="btn btn-link ml-auto">✎</button>
         </div>
