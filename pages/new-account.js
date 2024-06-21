@@ -1,6 +1,5 @@
 import React from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
-import Image from "next/image";
 
 const NewAccount = () => {
   return (
@@ -8,7 +7,7 @@ const NewAccount = () => {
       <Row className="justify-content-center">
         <Col md={8}>
           <div className="text-center mb-4">
-            <Image src="/kenstone-capital.png" alt="Kenstone Capital" />
+            <img src="/kenstone-capital.png" alt="Kenstone Capital" />
           </div>
           <Form>
             <Row className="mb-3">
