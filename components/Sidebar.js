@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FaUser, FaCog, FaHome } from "react-icons/fa";
 import Link from "next/link";
+import Image from "next/image";
 
 const Sidebar = () => {
   const [activeLink, setActiveLink] = useState("");
@@ -15,7 +16,7 @@ const Sidebar = () => {
       style={{ width: "12vw", height: "100vh" }}
     >
       <div className="mb-4">
-        <img src="/kenstone-logo.png" alt="Logo" width="50" height="50" />
+        <Image src="/kenstone-logo.png" alt="Logo" width="50" height="50" />
       </div>
       <nav className="nav flex-column w-100">
         <Link

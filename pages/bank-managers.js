@@ -62,6 +62,7 @@ const BankManagers = () => {
                       roundedCircle
                       width={30}
                       height={30}
+                      alt="user"
                       className="me-2"
                     />
                     {manager.name}, {manager.bank}
