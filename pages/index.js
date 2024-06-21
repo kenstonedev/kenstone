@@ -18,7 +18,7 @@ const Home = () => {
     });
 
     return () => unsubscribe();
-  }, []); // Empty dependency array ensures this effect runs only once on component mount
+  }, [router]); // Empty dependency array ensures this effect runs only once on component mount
 
   return (
     <div>
