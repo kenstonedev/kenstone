@@ -1,6 +1,7 @@
 import React from "react";
 import { FaSearch } from "react-icons/fa";
 import Link from 'next/link'
+import Image from "next/image";
 
 const Navbar = () => {
   return (
@@ -12,7 +13,7 @@ const Navbar = () => {
         </Link>
         <FaSearch style={{ margin: "30" }}></FaSearch>
         <Link href="/profile-page">
-          <img
+          <Image
             src="/profile-user.png"
             alt="User"
             className="rounded-circle"
