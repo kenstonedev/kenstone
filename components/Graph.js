@@ -2,7 +2,7 @@ import React from "react";
 
 const Graph = () => {
   return (
-    <div className="card p-3">
+    <div className="card p-3 m-3">
       <h5>Lorem Ipsum</h5>
       <p>Graph for some details</p>
       <div className="text-center">

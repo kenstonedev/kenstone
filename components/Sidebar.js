@@ -12,7 +12,7 @@ const Sidebar = () => {
   return (
     <div
       className="bg-light d-flex flex-column align-items-center p-3"
-      style={{ width: "250px", height: "100vh" }}
+      style={{ width: "12vw", height: "100vh" }}
     >
       <div className="mb-4">
         <img src="/kenstone-logo.png" alt="Logo" width="50" height="50" />

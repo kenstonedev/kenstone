@@ -4,6 +4,8 @@ import AppointmentInfo from "../components/AppointmentInfo";
 import CurrentFunds from "../components/CurrentFunds";
 import DocumentsRequired from "../components/DocumentsRequired";
 import Graph from "../components/Graph";
+import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
 
 const user = {
   image: "/path/to/profile-pic.jpg",
@@ -30,22 +32,26 @@ const documents = [
 
 const ProfilePage = () => {
   return (
-    <div className="container mt-5">
-      <div className="row">
-        <div className="col-lg-3">
-          <ProfileCard user={user} />
-        </div>
-        <div className="col-lg-9">
-          <AppointmentInfo date="12.07.2024" />
+    <div className="d-flex">
+      <Sidebar />
+      <div className="flex-grow-1">
+        <Navbar />
+        <div className="container mt-5">
           <div className="row">
-            <div className="col-md-6">
-              <CurrentFunds funds={funds} />
+            <div className="col-lg-3">
+              <ProfileCard user={user} />
             </div>
-            <div className="col-md-6">
-              <Graph />
+            <div className="col-lg-9">
+              <AppointmentInfo date="12.07.2024" />
+              <div className="mb-3">
+                <CurrentFunds funds={funds} />
+              </div>
+              <div className="d-flex">
+                <DocumentsRequired documents={documents} />
+                <Graph />
+              </div>
             </div>
           </div>
-          <DocumentsRequired documents={documents} />
         </div>
       </div>
     </div>

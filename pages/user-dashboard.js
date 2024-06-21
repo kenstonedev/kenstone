@@ -1,5 +1,5 @@
 import React from "react";
-import { Container } from "react-bootstrap";
+import { Container, Nav } from "react-bootstrap";
 import DashboardHeader from "../components/DashboardHeader";
 import ClientTable from "../components/ClientTable";
 import Sidebar from "../components/Sidebar";
@@ -93,16 +93,19 @@ const UserDashboard = () => {
   ).length;
 
   return (
-    <Container>
-      <h1 className="my-4">Dashboard</h1>
-      <DashboardHeader
-        total={totalClients}
-        processing={processingClients}
-        pending={pendingClients}
-        completed={completedClients}
-      />
-      <ClientTable clients={clientsData} />
-    </Container>
+    <div className="d-flex">
+      <Sidebar />
+      <div className="flex-grow-1">
+        <Navbar/>
+        <DashboardHeader
+          total={totalClients}
+          processing={processingClients}
+          pending={pendingClients}
+          completed={completedClients}
+        />
+        <ClientTable clients={clientsData} />
+      </div>
+    </div>
   );
 };
 

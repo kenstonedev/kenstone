@@ -5,7 +5,7 @@ import Navbar from "../components/Navbar";
 import ClientList from "../components/ClientList";
 import Statistics from "../components/Statistics";
 import Charts from "../components/Charts";
-import ClientsTable from "../components/ClientsTable";
+import Link from "next/link"
 
 
 const Dashboard = () => {
@@ -13,16 +13,18 @@ const Dashboard = () => {
     <div className="d-flex">
       <Sidebar />
       <div className="flex-grow-1">
-        <Navbar/>
+        <Navbar />
         <div className="p-3">
           <div className="row">
             <div className="col-md-3">
               <ClientList />
             </div>
             <div className="col-md-9">
-              <Statistics />
+              <Link href="/user-dashboard" style={{textDecoration:"none"}}>
+                <Statistics />
+              </Link>
               <Charts />
-              <ClientsTable />
+              
             </div>
           </div>
         </div>
