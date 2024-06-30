@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 
 const AdminDashboard = () => {
@@ -6,10 +7,12 @@ const AdminDashboard = () => {
       <div className="flex items-center justify-between p-4 bg-white shadow rounded-lg">
         <div className="text-xl font-bold">Admin</div>
         <div className="flex items-center space-x-4">
-          <img
-            className="w-10 h-10 rounded-full"
+          <Image
+            className="rounded-full"
             src="https://via.placeholder.com/150"
             alt="Profile"
+            height={200}
+            width={200}
           />
         </div>
       </div>
