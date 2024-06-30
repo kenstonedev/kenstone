@@ -51,18 +51,7 @@ const AdminDashboard = () => {
             </div>
           </div>
         </div>
-{/* 
-        <div className="p-4 bg-white shadow rounded-lg">
-          <div className="text-gray-500">Closing Rates of all sectors</div>
-          <div className="w-full h-48 flex justify-center items-center">
-            <svg className="w-32 h-32" viewBox="0 0 32 32">
-              <circle className="text-gray-300" cx="16" cy="16" r="15" fill="none" stroke="currentColor" strokeWidth="2" />
-              <circle className="text-blue-600" cx="16" cy="16" r="15" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="70 100" strokeDashoffset="25" />
-              <circle className="text-green-600" cx="16" cy="16" r="15" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="83 100" strokeDashoffset="-50" />
-              <circle className="text-red-600" cx="16" cy="16" r="15" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="95 100" strokeDashoffset="-133" />
-            </svg>
-          </div>
-        </div> */}
+/*chart.js*/
       </div>
 
       <div className="mt-4 p-4 bg-white shadow rounded-lg">
