@@ -16,9 +16,9 @@ const Statistics = ({clients}) => {
       try {
         const statistics = {
           total: clients.length,
-          processing: clients.filter(client => client.Status === "Processing").length,
-          pending: clients.filter(client => client.Status === "Pending").length,
-          completed: clients.filter(client => client.Status === "Completed").length,
+          processing: clients.filter(client => client.status === "processing").length,
+          pending: clients.filter(client => client.status === "pending").length,
+          completed: clients.filter(client => client.status === "completed").length,
         };
 
         setStats(statistics);
