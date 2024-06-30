@@ -18,11 +18,11 @@ const ClientsTable = ({clients}) => {
         <tbody>
           {clients.map((client, index) => (
             <tr key={index}>
-              <td>{client.Name}</td>
-              <td>{client.Bank}</td>
-              <td>{client.Score}</td>
-              <td>{client.Status}</td>
-              <td>{client.Commission}%</td>
+              <td>{client.fullName}</td>
+              <td>{client.bankName}</td>
+              <td>{client.cibilScore}</td>
+              <td>{client.status}</td>
+              <td>{client.commision}%</td>
             </tr>
           ))}
         </tbody>

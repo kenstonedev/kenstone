@@ -14,8 +14,8 @@ const ClientList = ({clients}) => {
           ></div>
           {/* <img src={client.image} alt="" /> */}
           <div className="ml-3">
-            <p className="mb-0">{client.Name}</p>
-            <p className="mb-0 text-muted">{client.Email}</p>
+            <p className="mb-0">{client.fullName}</p>
+            <p className="mb-0 text-muted">{client.emailId}</p>
           </div>
           <button className="btn btn-link ml-auto">✎</button>
         </div>

@@ -16,16 +16,16 @@ const ClientTable = ({ clients }) => (
     <tbody>
       {clients.map((client, index) => (
         <tr key={index}>
-          <td>{client.name}</td>
-          <td>{client.bank}</td>
-          <td>{client.email}</td>
-          <td>{client.phone}</td>
+          <td>{client.fullName}</td>
+          <td>{client.bankName}</td>
+          <td>{client.emailId}</td>
+          <td>{client.phoneNumber}</td>
           <td>
             <Badge
               bg={
-                client.status === "Completed"
+                client.status === "completed"
                   ? "success"
-                  : client.status === "Processing"
+                  : client.status === "processing"
                   ? "warning"
                   : "danger"
               }
@@ -33,7 +33,7 @@ const ClientTable = ({ clients }) => (
               {client.status}
             </Badge>
           </td>
-          <td>{client.cibil}</td>
+          <td>{client.cibilScore}</td>
         </tr>
       ))}
     </tbody>
