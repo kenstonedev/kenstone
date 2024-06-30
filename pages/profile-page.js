@@ -6,6 +6,8 @@ import DocumentsRequired from "../components/DocumentsRequired";
 import Graph from "../components/Graph";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
+import { useAuth } from "../contexts/AuthContext";
+import { useRouter } from "next/router";
 
 const user = {
   image: "/path/to/profile-pic.jpg",
@@ -31,6 +33,19 @@ const documents = [
 ];
 
 const ProfilePage = () => {
+
+  const { currentUser, logOut } = useAuth();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      await logOut();
+      router.push("/login");
+    } catch (error) {
+      console.error("Logout Error:", error);
+    }
+  };
+
   return (
     <div className="d-flex">
       <Sidebar />
@@ -51,6 +66,7 @@ const ProfilePage = () => {
                 <Graph />
               </div>
             </div>
+            <button onClick={handleLogout}>LOGOUT</button>
           </div>
         </div>
       </div>
