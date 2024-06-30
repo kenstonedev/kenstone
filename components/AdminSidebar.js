@@ -40,7 +40,7 @@ const Sidebar = () => {
           <span>Managers</span>
         </Link>
         <Link
-          href="/ClientList"
+          href="/ClientListinAdmin"
           className={`nav-link text-dark d-flex align-items-center ${
             activeLink === "clients" ? "text-primary" : ""
           }`}
