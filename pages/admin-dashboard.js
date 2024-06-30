@@ -1,151 +1,93 @@
-import React, { useEffect, useState } from "react";
-import { useAuth } from "../contexts/AuthContext";
-import { useRouter } from "next/router";
-import Link from 'next/link'; // Add this line
-import {
-  auth,
-  db,
-  createUserWithEmailAndPassword,
-  sendPasswordResetEmail,
-} from "../firebase"; // Verify correct path to firebase.js
-import { collection, query, where, getDocs, doc, updateDoc } from "firebase/firestore";
-import Navbar from "../components/AdminNavbar"; // Adjusted import path
-import Sidebar from "../components/AdminSidebar"; // Adjusted import path
+import React from 'react';
 
 const AdminDashboard = () => {
-  const router = useRouter();
-  const { currentUser, logOut } = useAuth();
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (!currentUser) {
-      return;
-    }
-
-    const fetchUsers = async () => {
-      try {
-        const q = query(collection(db, "users"));
-        const querySnapshot = await getDocs(q);
-        const userData = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setUsers(userData);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchUsers();
-  }, [currentUser]);
-
-  const handleDisableAccount = async (userId) => {
-    try {
-      const userRef = doc(db, "users", userId);
-      await updateDoc(userRef, {
-        disabled: true,
-      });
-      setUsers((prevUsers) =>
-        prevUsers.map((user) =>
-          user.id === userId ? { ...user, disabled: true } : user
-        )
-      );
-    } catch (error) {
-      console.error("Error disabling account:", error);
-    }
-  };
-
-  const generateRandomPassword = () => {
-    const length = 8;
-    const charset =
-      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    let password = "";
-    for (let i = 0; i < length; ++i) {
-      password += charset.charAt(Math.floor(Math.random() * charset.length));
-    }
-    return password;
-  };
-
-  const handleSendInvite = async () => {
-    try {
-      const password = generateRandomPassword();
-      const q = query(
-        collection(db, "users"),
-        where("role", "in", ["bankManager", "CA", "loanAgent"])
-      );
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach(async (doc) => {
-        const userData = doc.data();
-        const userEmail = userData.email;
-        await createUserWithEmailAndPassword(auth, userEmail, password);
-        await sendPasswordResetEmail(auth, userEmail);
-        console.log(`Invite sent to ${userEmail} with a temporary password.`);
-      });
-      alert("Invites sent successfully.");
-    } catch (error) {
-      console.error("Error sending invites:", error);
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      await logOut();
-      router.push("/login");
-    } catch (error) {
-      console.error("Logout Error:", error);
-    }
-  };
-
-  if (!currentUser) {
-    return <div>Loading...</div>;
-  }
-
   return (
-    <div className="d-flex">
-      <Sidebar />
-      <div style={{ flexGrow: 1 }}>
-        <Navbar />
-        <div style={{ padding: "20px" }} className="container">
-          <h1>Admin Dashboard</h1>
-          <Link href="/new-account">
-            <button className="btn btn-primary mr-3">Add New</button>
-          </Link>
-          <button
-            onClick={handleLogout}
-            style={{ marginBottom: "20px" }}
-            className="btn btn-primary"
-          >
-            Log Out
-          </button>
-          <h2>Manage Users</h2>
-          <ul>
-            {users.map((user) => (
-              <li key={user.id} style={{ marginBottom: "10px" }}>
-                {user.name} ({user.email}) - {user.role}
-                {user.disabled ? (
-                  <span> - Account Disabled</span>
-                ) : (
-                  <button
-                    onClick={() => handleDisableAccount(user.id)}
-                    style={{ marginLeft: "10px" }}
-                    className="btn btn-primary"
-                  >
-                    Disable Account
-                  </button>
-                )}
-              </li>
-            ))}
-          </ul>
-          <button
-            type="submit"
-            className="btn btn-primary"
-            onClick={handleSendInvite}
-          >
-            Invite All
-          </button>
+    <div className="min-h-screen bg-gray-100 p-4">
+      <div className="flex items-center justify-between p-4 bg-white shadow rounded-lg">
+        <div className="text-xl font-bold">Admin</div>
+        <div className="flex items-center space-x-4">
+          <img
+            className="w-10 h-10 rounded-full"
+            src="https://via.placeholder.com/150"
+            alt="Profile"
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+        <div className="p-4 bg-white shadow rounded-lg">
+          <div className="text-gray-500">Bank Managers</div>
+          <div className="text-2xl font-bold">12</div>
+        </div>
+        <div className="p-4 bg-white shadow rounded-lg">
+          <div className="text-gray-500">Chartered Accountants</div>
+          <div className="text-2xl font-bold">13</div>
+        </div>
+        <div className="p-4 bg-white shadow rounded-lg">
+          <div className="text-gray-500">Loan Agents</div>
+          <div className="text-2xl font-bold">15</div>
+        </div>
+        <div className="p-4 bg-white shadow rounded-lg">
+          <div className="text-gray-500">Total Clients</div>
+          <div className="text-2xl font-bold">40</div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
+        <div className="p-4 bg-white shadow rounded-lg">
+          <div className="text-gray-500">Current Closing Rates</div>
+          <div className="flex justify-between mt-2">
+            <div>
+              <div className="text-gray-500">Bank Managers</div>
+              <div className="font-bold">70%</div>
+            </div>
+            <div>
+              <div className="text-gray-500">Chartered Accountants</div>
+              <div className="font-bold">83%</div>
+            </div>
+            <div>
+              <div className="text-gray-500">Loan Agents</div>
+              <div className="font-bold">95%</div>
+            </div>
+          </div>
+        </div>
+{/* 
+        <div className="p-4 bg-white shadow rounded-lg">
+          <div className="text-gray-500">Closing Rates of all sectors</div>
+          <div className="w-full h-48 flex justify-center items-center">
+            <svg className="w-32 h-32" viewBox="0 0 32 32">
+              <circle className="text-gray-300" cx="16" cy="16" r="15" fill="none" stroke="currentColor" strokeWidth="2" />
+              <circle className="text-blue-600" cx="16" cy="16" r="15" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="70 100" strokeDashoffset="25" />
+              <circle className="text-green-600" cx="16" cy="16" r="15" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="83 100" strokeDashoffset="-50" />
+              <circle className="text-red-600" cx="16" cy="16" r="15" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="95 100" strokeDashoffset="-133" />
+            </svg>
+          </div>
+        </div> */}
+      </div>
+
+      <div className="mt-4 p-4 bg-white shadow rounded-lg">
+        <div className="text-gray-500">New Client List</div>
+        <div className="mt-2">
+          <div className="flex justify-between border-b py-2">
+            <div>Anil Sharma</div>
+            <div>23456 34567</div>
+          </div>
+          <div className="flex justify-between border-b py-2">
+            <div>Feroz Shah</div>
+            <div>23456 34567</div>
+          </div>
+          <div className="flex justify-between border-b py-2">
+            <div>Muskan Singh</div>
+            <div>23456 34567</div>
+          </div>
+          <div className="flex justify-between border-b py-2">
+            <div>Preeti Sharma</div>
+            <div>23456 34567</div>
+          </div>
+          <div className="flex justify-between py-2">
+            <div>Anjali Kapoor</div>
+            <div>23456 34567</div>
+          </div>
         </div>
       </div>
     </div>
