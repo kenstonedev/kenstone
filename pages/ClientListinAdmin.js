@@ -1,30 +1,38 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Row,
   Col,
   Table,
   Button,
-  Image,
+  Card,
 } from "react-bootstrap";
 import Navbar from "../components/AdminNavbar";
 import Sidebar from "../components/AdminSidebar";
 
 const ClientList = () => {
-  const clients = [
-    {
-      name: "John Doe",
-      bankManager: "Manish Paul",
-      bank: "HDFC",
-      branch: "Hanumanthanagar",
-      ifsc: "HDFC1234",
-      commission: "5%",
-      referrals: 12,
-      accepted: "50%",
-      image: "/images/client1.jpg",
-    },
-    // Add more client data here
-  ];
+  const [clients, setClients] = useState([]);
+
+  useEffect(() => {
+    // Fetch clients data from an API or database here
+    // For now, using dummy data
+    const fetchedClients = [
+      {
+        name: "John Doe",
+        email: "john.doe@example.com",
+        phone: "123-456-7890",
+        status: "Processing",
+        cibil: 750,
+        image: "/images/client1.jpg",
+      },
+      // Add more client data here
+    ];
+    setClients(fetchedClients);
+  }, []);
+
+  const getStatusCount = (status) => {
+    return clients.filter(client => client.status === status).length;
+  };
 
   return (
     <div className="d-flex">
@@ -32,10 +40,44 @@ const ClientList = () => {
       <div className="flex-grow-1">
         <Navbar />
         <Container className="my-4">
+          <Row className="mb-4">
+            <Col>
+              <Card>
+                <Card.Body>
+                  <Card.Title>Total Clients</Card.Title>
+                  <Card.Text>{clients.length}</Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col>
+              <Card>
+                <Card.Body>
+                  <Card.Title>Processing</Card.Title>
+                  <Card.Text>{getStatusCount("Processing")}</Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col>
+              <Card>
+                <Card.Body>
+                  <Card.Title>Rejected</Card.Title>
+                  <Card.Text>{getStatusCount("Rejected")}</Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col>
+              <Card>
+                <Card.Body>
+                  <Card.Title>Completed</Card.Title>
+                  <Card.Text>{getStatusCount("Completed")}</Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
           <Row className="justify-content-between align-items-center mb-3">
             <Col>
               <h2>Client List</h2>
-              <p>Total: 24 Clients</p>
+              <p>Total: {clients.length} Clients</p>
             </Col>
             <Col className="text-end">
               <Button variant="outline-secondary">
@@ -47,36 +89,20 @@ const ClientList = () => {
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Bank Manager</th>
-                <th>Bank Name</th>
-                <th>Branch</th>
-                <th>IFSC Code</th>
-                <th>Commission</th>
-                <th>Referrals</th>
-                <th>Accepted %</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Status</th>
+                <th>CIBIL Score</th>
               </tr>
             </thead>
             <tbody>
               {clients.map((client, index) => (
                 <tr key={index}>
-                  <td>
-                    <Image
-                      src={client.image}
-                      roundedCircle
-                      width={30}
-                      height={30}
-                      alt="user"
-                      className="me-2"
-                    />
-                    {client.name}
-                  </td>
-                  <td>{client.bankManager}</td>
-                  <td>{client.bank}</td>
-                  <td>{client.branch}</td>
-                  <td>{client.ifsc}</td>
-                  <td>{client.commission}</td>
-                  <td>{client.referrals}</td>
-                  <td>{client.accepted}</td>
+                  <td>{client.name}</td>
+                  <td>{client.email}</td>
+                  <td>{client.phone}</td>
+                  <td>{client.status}</td>
+                  <td>{client.cibil}</td>
                 </tr>
               ))}
             </tbody>
