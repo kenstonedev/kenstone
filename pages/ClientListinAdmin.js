@@ -6,32 +6,48 @@ import {
   Table,
   Button,
   Card,
+  Dropdown,
 } from "react-bootstrap";
 import Navbar from "../components/AdminNavbar";
 import Sidebar from "../components/AdminSidebar";
+import { db } from "../firebase"; // Ensure the path is correct
+import { collection, getDocs, doc, updateDoc, query, orderBy } from "firebase/firestore";
 
 const ClientList = () => {
   const [clients, setClients] = useState([]);
 
   useEffect(() => {
-    // Fetch clients data from an API or database here
-    // For now, using dummy data
-    const fetchedClients = [
-      {
-        name: "John Doe",
-        email: "john.doe@example.com",
-        phone: "123-456-7890",
-        status: "Processing",
-        cibil: 750,
-        image: "/images/client1.jpg",
-      },
-      // Add more client data here
-    ];
-    setClients(fetchedClients);
+    const fetchClients = async () => {
+      try {
+        const clientsQuery = query(collection(db, "clients"), orderBy("createdAt", "desc"));
+        const querySnapshot = await getDocs(clientsQuery);
+        const fetchedClients = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setClients(fetchedClients);
+      } catch (error) {
+        console.error("Error fetching clients:", error);
+      }
+    };
+
+    fetchClients();
   }, []);
 
   const getStatusCount = (status) => {
     return clients.filter(client => client.status === status).length;
+  };
+
+  const handleStatusChange = async (id, newStatus) => {
+    try {
+      const clientDoc = doc(db, "clients", id);
+      await updateDoc(clientDoc, { status: newStatus });
+      setClients(clients.map(client =>
+        client.id === id ? { ...client, status: newStatus } : client
+      ));
+    } catch (error) {
+      console.error("Error updating status:", error);
+    }
   };
 
   return (
@@ -96,13 +112,25 @@ const ClientList = () => {
               </tr>
             </thead>
             <tbody>
-              {clients.map((client, index) => (
-                <tr key={index}>
-                  <td>{client.name}</td>
-                  <td>{client.email}</td>
-                  <td>{client.phone}</td>
-                  <td>{client.status}</td>
-                  <td>{client.cibil}</td>
+              {clients.map((client) => (
+                <tr key={client.id}>
+                  <td>{client.fullName}</td>
+                  <td>{client.emailId}</td>
+                  <td>{client.phoneNumber}</td>
+                  <td>
+                    <Dropdown onSelect={(newStatus) => handleStatusChange(client.id, newStatus)}>
+                      <Dropdown.Toggle id="dropdown-basic">
+                        {client.status}
+                      </Dropdown.Toggle>
+
+                      <Dropdown.Menu>
+                        <Dropdown.Item eventKey="Processing">Processing</Dropdown.Item>
+                        <Dropdown.Item eventKey="Rejected">Rejected</Dropdown.Item>
+                        <Dropdown.Item eventKey="Completed">Completed</Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </td>
+                  <td>{client.cibilScore}</td>
                 </tr>
               ))}
             </tbody>
