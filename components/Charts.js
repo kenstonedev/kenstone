@@ -7,13 +7,13 @@ import useClientData from "../useClientData";
 const Charts = ({ clients }) => {
     const totalClients = clients.length;
     const processingClients = clients.filter(
-        (client) => client.status === "processing"
+        (client) => client.status === "Processing"
     ).length;
     const pendingClients = clients.filter(
-        (client) => client.status === "pending"
+        (client) => client.status === "Pending"
     ).length;
     const completedClients = clients.filter(
-        (client) => client.status === "completed"
+        (client) => client.status === "Completed"
     ).length;
 
     // Calculate percentages
