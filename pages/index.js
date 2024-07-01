@@ -13,11 +13,12 @@ const Home = () => {
 
   useEffect(() => {
     const getUserRole = async (email) => {
-      const q = query(collection(db, "users"), where("email", "==", email));
+      const q = query(collection(db, "users"), where("emailId", "==", email));
       const querySnapshot = await getDocs(q);
 
       if (!querySnapshot.empty) {
         const userData = querySnapshot.docs[0].data();
+        console.log(userData);
         if (userData.role === "admin") {
           router.push("/admin-dashboard");
         } else {
@@ -26,17 +27,17 @@ const Home = () => {
       }
     };
 
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (!user) {
+    const unsubscribe = () => {
+      if (!currentUser) {
         router.push("/login"); // Redirect to login page if not authenticated
       } else {
         // setCurrentUser(user); // Assuming useAuth provides setCurrentUser
-        getUserRole(user.email);
+        getUserRole(currentUser.email);
       }
-    });
+    };
 
-    return () => unsubscribe();
-  }, [router, setCurrentUser]);
+    unsubscribe();
+  }, []);
 
   return (
     <div>
