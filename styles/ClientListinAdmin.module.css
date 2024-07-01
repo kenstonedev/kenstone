@@ -1,13 +1,10 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-/* styles/globals.css */
-.table-container {
+/* styles/ClientListinAdmin.module.css */
+.tableContainer {
     position: relative;
     min-height: calc(100vh - 200px); /* Adjust based on your header/footer height */
   }
   
-  .load-more-container {
+  .loadMoreContainer {
     position: absolute;
     bottom: 0;
     width: 100%;

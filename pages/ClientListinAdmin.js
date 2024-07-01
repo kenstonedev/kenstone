@@ -11,26 +11,41 @@ import {
 import Navbar from "../components/AdminNavbar";
 import Sidebar from "../components/AdminSidebar";
 import { db } from "../firebase"; // Ensure the path is correct
-import { collection, getDocs, doc, updateDoc, query, orderBy } from "firebase/firestore";
+import { collection, getDocs, doc, updateDoc, query, orderBy, limit, startAfter } from "firebase/firestore";
+import "../styles/ClientListinAdmin.module.css"; // Ensure the correct path to your CSS file
 
 const ClientList = () => {
   const [clients, setClients] = useState([]);
+  const [lastVisible, setLastVisible] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+
+  const fetchClients = async (loadMore = false) => {
+    setLoading(true);
+    try {
+      const clientsQuery = loadMore
+        ? query(collection(db, "clients"), orderBy("createdAt", "desc"), startAfter(lastVisible), limit(10))
+        : query(collection(db, "clients"), orderBy("createdAt", "desc"), limit(10));
+      
+      const querySnapshot = await getDocs(clientsQuery);
+      const fetchedClients = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+
+      if (querySnapshot.docs.length > 0) {
+        setLastVisible(querySnapshot.docs[querySnapshot.docs.length - 1]);
+      }
+
+      setClients(loadMore ? [...clients, ...fetchedClients] : fetchedClients);
+      setHasMore(querySnapshot.docs.length > 0);
+    } catch (error) {
+      console.error("Error fetching clients:", error);
+    }
+    setLoading(false);
+  };
 
   useEffect(() => {
-    const fetchClients = async () => {
-      try {
-        const clientsQuery = query(collection(db, "clients"), orderBy("createdAt", "desc"));
-        const querySnapshot = await getDocs(clientsQuery);
-        const fetchedClients = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-        setClients(fetchedClients);
-      } catch (error) {
-        console.error("Error fetching clients:", error);
-      }
-    };
-
     fetchClients();
   }, []);
 
@@ -101,42 +116,48 @@ const ClientList = () => {
               </Button>
             </Col>
           </Row>
-          <Table responsive>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Status</th>
-                <th>CIBIL Score</th>
-              </tr>
-            </thead>
-            <tbody>
-              {clients.map((client) => (
-                <tr key={client.id}>
-                  <td>{client.fullName}</td>
-                  <td>{client.emailId}</td>
-                  <td>{client.phoneNumber}</td>
-                  <td>
-                    <Dropdown onSelect={(newStatus) => handleStatusChange(client.id, newStatus)}>
-                      <Dropdown.Toggle id="dropdown-basic">
-                        {client.status}
-                      </Dropdown.Toggle>
-
-                      <Dropdown.Menu>
-                        <Dropdown.Item eventKey="Processing">Processing</Dropdown.Item>
-                        <Dropdown.Item eventKey="Rejected">Rejected</Dropdown.Item>
-                        <Dropdown.Item eventKey="Completed">Completed</Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </td>
-                  <td>{client.cibilScore}</td>
+          <div className="table-container">
+            <Table responsive>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Status</th>
+                  <th>CIBIL Score</th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
-          <div className="text-center">
-            <Button variant="primary">Load More</Button>
+              </thead>
+              <tbody>
+                {clients.map((client) => (
+                  <tr key={client.id}>
+                    <td>{client.fullName}</td>
+                    <td>{client.emailId}</td>
+                    <td>{client.phoneNumber}</td>
+                    <td>
+                      <Dropdown onSelect={(newStatus) => handleStatusChange(client.id, newStatus)}>
+                        <Dropdown.Toggle id="dropdown-basic">
+                          {client.status}
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                          <Dropdown.Item eventKey="Processing">Processing</Dropdown.Item>
+                          <Dropdown.Item eventKey="Rejected">Rejected</Dropdown.Item>
+                          <Dropdown.Item eventKey="Completed">Completed</Dropdown.Item>
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    </td>
+                    <td>{client.cibilScore}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+            {hasMore && (
+              <div className="load-more-container">
+                <Button variant="primary" onClick={() => fetchClients(true)} disabled={loading}>
+                  {loading ? 'Loading...' : 'Load More'}
+                </Button>
+              </div>
+            )}
           </div>
         </Container>
       </div>
