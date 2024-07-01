@@ -31,18 +31,11 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Navbar */}
-      <div className="flex-grow-0">
+    <div className="d-flex">
+      <Sidebar />
+      <div className="flex-grow-1">
         <Navbar />
-      </div>
-
-      {/* Side bar and main content */}
-      <div className="flex flex-grow">
-        {/* Sidebar */}
-        <div className="w-1/5 bg-gray-200">
-          <Sidebar />
-        </div>
+      
 
         {/* Main content */}
         <div className="w-4/5 p-4 flex flex-col space-y-4">
