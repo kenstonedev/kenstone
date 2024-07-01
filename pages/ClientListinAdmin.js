@@ -12,6 +12,7 @@ import Navbar from "../components/AdminNavbar";
 import Sidebar from "../components/AdminSidebar";
 import { db } from "../firebase"; // Ensure the path is correct
 import { collection, getDocs, doc, updateDoc, query, orderBy, limit, startAfter } from "firebase/firestore";
+import "../styles/ClientListinAdmin.module.css"; // Ensure the correct path to your CSS file
 
 const ClientList = () => {
   const [clients, setClients] = useState([]);
@@ -115,47 +116,49 @@ const ClientList = () => {
               </Button>
             </Col>
           </Row>
-          <Table responsive>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Status</th>
-                <th>CIBIL Score</th>
-              </tr>
-            </thead>
-            <tbody>
-              {clients.map((client) => (
-                <tr key={client.id}>
-                  <td>{client.fullName}</td>
-                  <td>{client.emailId}</td>
-                  <td>{client.phoneNumber}</td>
-                  <td>
-                    <Dropdown onSelect={(newStatus) => handleStatusChange(client.id, newStatus)}>
-                      <Dropdown.Toggle id="dropdown-basic">
-                        {client.status}
-                      </Dropdown.Toggle>
-
-                      <Dropdown.Menu>
-                        <Dropdown.Item eventKey="Processing">Processing</Dropdown.Item>
-                        <Dropdown.Item eventKey="Rejected">Rejected</Dropdown.Item>
-                        <Dropdown.Item eventKey="Completed">Completed</Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </td>
-                  <td>{client.cibilScore}</td>
+          <div className="table-container">
+            <Table responsive>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Status</th>
+                  <th>CIBIL Score</th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
-          {hasMore && (
-            <div className="text-center">
-              <Button variant="primary" onClick={() => fetchClients(true)} disabled={loading}>
-                {loading ? 'Loading...' : 'Load More'}
-              </Button>
-            </div>
-          )}
+              </thead>
+              <tbody>
+                {clients.map((client) => (
+                  <tr key={client.id}>
+                    <td>{client.fullName}</td>
+                    <td>{client.emailId}</td>
+                    <td>{client.phoneNumber}</td>
+                    <td>
+                      <Dropdown onSelect={(newStatus) => handleStatusChange(client.id, newStatus)}>
+                        <Dropdown.Toggle id="dropdown-basic">
+                          {client.status}
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                          <Dropdown.Item eventKey="Processing">Processing</Dropdown.Item>
+                          <Dropdown.Item eventKey="Rejected">Rejected</Dropdown.Item>
+                          <Dropdown.Item eventKey="Completed">Completed</Dropdown.Item>
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    </td>
+                    <td>{client.cibilScore}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+            {hasMore && (
+              <div className="load-more-container">
+                <Button variant="primary" onClick={() => fetchClients(true)} disabled={loading}>
+                  {loading ? 'Loading...' : 'Load More'}
+                </Button>
+              </div>
+            )}
+          </div>
         </Container>
       </div>
     </div>
