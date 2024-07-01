@@ -30,7 +30,7 @@ const Sidebar = () => {
           <span>Dashboard</span>
         </Link>
         <Link
-          href="/bank-managers"
+          href="/user-dashboard"
           className={`nav-link text-dark d-flex align-items-center ${
             activeLink === "clientList" ? "text-primary" : ""
           }`}

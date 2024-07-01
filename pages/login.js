@@ -22,7 +22,7 @@ const Login = () => {
       console.log(userEmail);
 
       // Query the 'users' collection for the user with matching email
-      const q = query(collection(db, "users"), where("email", "==", userEmail));
+      const q = query(collection(db, "users"), where("emailId", "==", userEmail));
       const querySnapshot = await getDocs(q);
 
       if (!querySnapshot.empty) {

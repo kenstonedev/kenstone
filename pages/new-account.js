@@ -8,14 +8,8 @@ const SignUpForm = () => {
         title: "",
         fullName: "",
         phoneNumber: "",
-        homeAddress: "",
         emailId: "",
-        panNumber: "",
-        aadharNumber: "",
-        bankName: "",
-        bankBranch: "",
-        ifscCode: "",
-        cibilScore: "", // New field for CIBIL score
+        cibilScore: "",
     });
 
     const [userEmail, setUserEmail] = useState("");
@@ -40,20 +34,17 @@ const SignUpForm = () => {
     const handleGenerateSignInDetails = async () => {
         try {
             const docData = { ...formValues, userEmail, status: "Processing" };
-            const docRef = await addDoc(collection(db, "clients"), {...docData, createdAt: serverTimestamp()});
+            const docRef = await addDoc(collection(db, "clients"), {
+                ...docData,
+                createdAt: serverTimestamp(),
+            });
             console.log("Document written with ID: ", docRef.id);
             // Clear form after successful submission
             setFormValues({
                 title: "",
                 fullName: "",
                 phoneNumber: "",
-                homeAddress: "",
                 emailId: "",
-                panNumber: "",
-                aadharNumber: "",
-                bankName: "",
-                bankBranch: "",
-                ifscCode: "",
                 cibilScore: "",
             });
         } catch (error) {
@@ -112,7 +103,7 @@ const SignUpForm = () => {
                                         value={formValues.emailId}
                                         onChange={handleInputChange}
                                         style={styles.input}
-                                        placeholder="Please enter the e-mail address"
+                                        placeholder="Please enter the Email - ID"
                                     />
                                 </label>
                             </div>
@@ -131,92 +122,7 @@ const SignUpForm = () => {
                                     />
                                 </label>
                                 <label
-                                    style={{ ...styles.label, width: "25%" }}
-                                >
-                                    Aadhar Number:
-                                    <input
-                                        type="text"
-                                        name="aadharNumber"
-                                        value={formValues.aadharNumber}
-                                        onChange={handleInputChange}
-                                        style={styles.input}
-                                        placeholder="Please enter the Aadhar Number"
-                                    />
-                                </label>
-                                <label
-                                    style={{ ...styles.label, width: "25%" }}
-                                >
-                                    Pan Number:
-                                    <input
-                                        type="text"
-                                        name="panNumber"
-                                        value={formValues.panNumber}
-                                        onChange={handleInputChange}
-                                        style={styles.input}
-                                        placeholder="Please enter the Pan Number"
-                                    />
-                                </label>
-                            </div>
-                            <div style={styles.formRow}>
-                                <label
-                                    style={{ ...styles.label, width: "100%" }}
-                                >
-                                    Home Address:
-                                    <input
-                                        type="text"
-                                        name="homeAddress"
-                                        value={formValues.homeAddress}
-                                        onChange={handleInputChange}
-                                        style={styles.input}
-                                        placeholder="Please enter the Full Address"
-                                    />
-                                </label>
-                            </div>
-                            <div style={styles.formRow}>
-                                <label
-                                    style={{ ...styles.label, width: "30%" }}
-                                >
-                                    Bank Name:
-                                    <input
-                                        type="text"
-                                        name="bankName"
-                                        value={formValues.bankName}
-                                        onChange={handleInputChange}
-                                        style={styles.input}
-                                        placeholder="Please enter the Bank Name"
-                                    />
-                                </label>
-                                <label
-                                    style={{ ...styles.label, width: "40%" }}
-                                >
-                                    Bank Branch:
-                                    <input
-                                        type="text"
-                                        name="bankBranch"
-                                        value={formValues.bankBranch}
-                                        onChange={handleInputChange}
-                                        style={styles.input}
-                                        placeholder="Please enter the Branch Name"
-                                    />
-                                </label>
-                                <label
-                                    style={{ ...styles.label, width: "30%" }}
-                                >
-                                    IFSC Code:
-                                    <input
-                                        type="text"
-                                        name="ifscCode"
-                                        value={formValues.ifscCode}
-                                        onChange={handleInputChange}
-                                        style={styles.input}
-                                        placeholder="Please enter the IFSC Code"
-                                    />
-                                </label>
-                            </div>
-                            {/* New input for CIBIL Score */}
-                            <div style={styles.formRow}>
-                                <label
-                                    style={{ ...styles.label, width: "30%" }}
+                                    style={{ ...styles.label, width: "50%" }}
                                 >
                                     CIBIL Score:
                                     <input
@@ -225,17 +131,16 @@ const SignUpForm = () => {
                                         value={formValues.cibilScore}
                                         onChange={handleInputChange}
                                         style={styles.input}
-                                        placeholder="Enter CIBIL Score"
+                                        placeholder="Please enter the CIBIL Score"
                                     />
                                 </label>
                             </div>
-                            {/* Submit button */}
                             <button
                                 type="button"
                                 onClick={handleGenerateSignInDetails}
                                 style={styles.button}
                             >
-                                Generate Sign In Details
+                                ADD NEW
                             </button>
                         </form>
                     </div>
