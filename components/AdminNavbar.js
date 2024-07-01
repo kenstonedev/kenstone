@@ -8,7 +8,7 @@ const Navbar = () => {
     <header className="d-flex justify-content-between align-items-center p-3 bg-light">
       <h1>Dashboard</h1>
       <div>
-        <Link href="/new-account">
+        <Link href="/NewAccount">
           <button className="btn btn-primary mr-3">Add New</button>
         </Link>
         <FaSearch style={{ margin: "30" }}></FaSearch>

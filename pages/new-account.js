@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../firebase"; // Ensure the path is correct
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const SignUpForm = () => {
@@ -39,8 +39,8 @@ const SignUpForm = () => {
 
     const handleGenerateSignInDetails = async () => {
         try {
-            const docData = { ...formValues, userEmail, status: "pending" };
-            const docRef = await addDoc(collection(db, "clients"), docData);
+            const docData = { ...formValues, userEmail, status: "Processing" };
+            const docRef = await addDoc(collection(db, "clients"), {...docData, createdAt: serverTimestamp()});
             console.log("Document written with ID: ", docRef.id);
             // Clear form after successful submission
             setFormValues({

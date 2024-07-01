@@ -49,7 +49,7 @@ const Sidebar = () => {
           <FaCog style={{ fontSize: "24px", marginRight: "10px" }} />
           <span>Clients</span>
         </Link>
-        <Link
+        {/* <Link
           href="/profile-settings"
           className={`nav-link text-dark d-flex align-items-center ${
             activeLink === "settings" ? "text-primary" : ""
@@ -58,7 +58,7 @@ const Sidebar = () => {
         >
           <FaCog style={{ fontSize: "24px", marginRight: "10px" }} />
           <span>Profile Settings</span>
-        </Link>
+        </Link> */}
       </nav>
     </div>
   );
