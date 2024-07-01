@@ -35,11 +35,8 @@ const AdminDashboard = () => {
       <Sidebar />
       <div className="flex-grow-1">
         <Navbar />
-      
-
-        {/* Main content */}
-        <div className="w-4/5 p-4 flex flex-col space-y-4">
-          <div className="w-full">
+        <div className="flex flex-col items-center justify-center p-4 space-y-4">
+          <div className="w-full max-w-6xl">
             {/* New Accounts Closed Section */}
             <div className="bg-white shadow rounded-lg p-4 mb-4">
               <div className="font-bold text-lg mb-2">ACCOUNTS CLOSED</div>
@@ -93,7 +90,7 @@ const AdminDashboard = () => {
             </div>
 
             <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8">
-              <div className="w-full md:w-1/3 bg-white shadow rounded-lg p-4 h-96">
+              <div className="w-full md:w-1/2 bg-white shadow rounded-lg p-4 h-96">
                 <div className="text-lg font-bold text-gray-700 mb-4">New Client List</div>
                 <div className="overflow-x-auto">
                   <table className="min-w-full bg-white">
@@ -115,7 +112,7 @@ const AdminDashboard = () => {
                 </div>
               </div>
 
-              <div className="w-full md:w-1/3 bg-white shadow rounded-lg p-4 h-96">
+              <div className="w-full md:w-1/2 bg-white shadow rounded-lg p-4 h-96">
                 <div className="text-lg font-bold text-gray-700 mb-4">Closing Rates</div>
                 <div className="h-64">
                   <Doughnut data={data} options={options} />
