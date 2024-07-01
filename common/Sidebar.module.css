@@ -1,14 +1,15 @@
+/* Sidebar.css */
 .sidebar {
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
-  gap: 1.5rem; /* Equivalent to space-y-6 in Tailwind */
-  margin-top: 0.5rem; /* Equivalent to mt-2 in Tailwind */
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
 }
 
-.iconWrapper {
+.icon-container {
   background-color: white;
-  border-radius: 9999px; /* Full rounding for a circular shape */
-  max-width: fit-content;
+  border-radius: 50%;
   padding: 0.5rem;
+  max-width: fit-content;
 }
