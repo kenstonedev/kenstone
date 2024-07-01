@@ -26,7 +26,7 @@ const ClientList = () => {
       const clientsQuery = loadMore
         ? query(collection(db, "clients"), orderBy("createdAt", "desc"), startAfter(lastVisible), limit(10))
         : query(collection(db, "clients"), orderBy("createdAt", "desc"), limit(10));
-      
+
       const querySnapshot = await getDocs(clientsQuery);
       const fetchedClients = querySnapshot.docs.map(doc => ({
         id: doc.id,
@@ -52,14 +52,40 @@ const ClientList = () => {
   const getStatusCount = (status) => {
     return clients.filter(client => client.status === status).length;
   };
-
+  
   const handleStatusChange = async (id, newStatus) => {
     try {
+      // Fetch the client document
       const clientDoc = doc(db, "clients", id);
-      await updateDoc(clientDoc, { status: newStatus });
-      setClients(clients.map(client =>
-        client.id === id ? { ...client, status: newStatus } : client
-      ));
+      const clientSnapshot = await getDoc(clientDoc);
+
+      if (clientSnapshot.exists()) {
+        const { userEmail } = clientSnapshot.data();
+
+        // Update the status in the client document
+        await updateDoc(clientDoc, { status: newStatus });
+
+        // Fetch the corresponding user document by userEmail
+        const usersCollection = collection(db, "users");
+        const q = query(usersCollection, where("emailId", "==", userEmail));
+        const userQuerySnapshot = await getDocs(q);
+
+        if (!userQuerySnapshot.empty) {
+          // Assuming there's only one user with a matching email
+          const userDocRef = userQuerySnapshot.docs[0].ref;
+
+          // Update the completed field in the user document
+          await updateDoc(userDocRef, {
+            accepted: increment(1),
+          });
+
+          console.log("Status updated successfully.");
+        } else {
+          console.error("User document not found for email:", userEmail);
+        }
+      } else {
+        console.error("Client document not found:", id);
+      }
     } catch (error) {
       console.error("Error updating status:", error);
     }

@@ -39,6 +39,18 @@ const SignUpForm = () => {
                 createdAt: serverTimestamp(),
             });
             console.log("Document written with ID: ", docRef.id);
+            const userDocRef = doc(collection(db, "users"), where("emailId", "==", userEmail));
+            const userDocSnapshot = await getDoc(userDocRef);
+
+            if (userDocSnapshot.exists()) {
+                // Update the totalClients field for that user
+                await updateDoc(userDocRef, {
+                    clients: increment(1),
+                });
+                console.log("Total clients incremented for user:", userEmail);
+            } else {
+                console.error("User document does not exist:", userEmail);
+            }
             // Clear form after successful submission
             setFormValues({
                 title: "",

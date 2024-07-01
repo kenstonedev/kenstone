@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { db } from "../firebase"; // Verify correct path to firebase.js
-import { collection, query, getDocs, where, orderBy } from "firebase/firestore";
+import { collection, query, getDocs, where, orderBy, updateDoc, doc } from "firebase/firestore";
 import Navbar from "../components/AdminNavbar"; // Adjusted import path
 import Sidebar from "../components/AdminSidebar"; // Adjusted import path
 import { Container, Row, Col, Table, Button, Dropdown } from "react-bootstrap";
@@ -9,6 +9,8 @@ const BankManagers = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedRole, setSelectedRole] = useState("Bank Manager");
+  const [editCommissionId, setEditCommissionId] = useState(null);
+  const [commission, setCommission] = useState("");
 
   const fetchUsers = async () => {
     try {
@@ -19,7 +21,6 @@ const BankManagers = () => {
         ...doc.data(),
       }));
       setUsers(userData);
-      console.log(userData);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -34,6 +35,29 @@ const BankManagers = () => {
   const handleSelect = (eventKey) => {
     setSelectedRole(eventKey);
     fetchUsers();
+  };
+
+  const handleEditClick = (userId, currentCommission) => {
+    setEditCommissionId(userId);
+    setCommission(currentCommission);
+  };
+
+  const handleCommissionChange = (e) => {
+    setCommission(e.target.value);
+  };
+
+  const handleCommissionBlur = async (userId) => {
+    try {
+      const userRef = doc(db, "users", userId);
+      await updateDoc(userRef, {
+        commission: parseFloat(commission),
+      });
+      const updatedUsers = users.map(user => user.id === userId ? { ...user, commission: parseFloat(commission) } : user);
+      setUsers(updatedUsers);
+    } catch (error) {
+      console.error("Error updating commission:", error);
+    }
+    setEditCommissionId(null);
   };
 
   return (
@@ -74,12 +98,27 @@ const BankManagers = () => {
                 </tr>
               </thead>
               <tbody>
-                {users.map((user, index) => (
-                  <tr key={index}>
+                {users.map((user) => (
+                  <tr key={user.id}>
                     <td>{user.fullName}, {user.bankName}</td>
                     <td>{user.bankBranch}</td>
                     <td>{user.ifscCode}</td>
-                    <td>{user.commission}</td>
+                    <td>
+                      {editCommissionId === user.id ? (
+                        <input
+                          type="number"
+                          value={commission}
+                          onChange={handleCommissionChange}
+                          onBlur={() => handleCommissionBlur(user.id)}
+                          autoFocus
+                          style={{ width: "70px" }}
+                        />
+                      ) : (
+                        <span onClick={() => handleEditClick(user.id, user.commission)}>
+                          {user.commission}
+                        </span>
+                      )}
+                    </td>
                     <td>{user.referrals || 0}</td>
                     <td>{user.accepted}</td>
                   </tr>
