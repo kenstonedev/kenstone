@@ -11,26 +11,40 @@ import {
 import Navbar from "../components/AdminNavbar";
 import Sidebar from "../components/AdminSidebar";
 import { db } from "../firebase"; // Ensure the path is correct
-import { collection, getDocs, doc, updateDoc, query, orderBy } from "firebase/firestore";
+import { collection, getDocs, doc, updateDoc, query, orderBy, limit, startAfter } from "firebase/firestore";
 
 const ClientList = () => {
   const [clients, setClients] = useState([]);
+  const [lastVisible, setLastVisible] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+
+  const fetchClients = async (loadMore = false) => {
+    setLoading(true);
+    try {
+      const clientsQuery = loadMore
+        ? query(collection(db, "clients"), orderBy("createdAt", "desc"), startAfter(lastVisible), limit(10))
+        : query(collection(db, "clients"), orderBy("createdAt", "desc"), limit(10));
+      
+      const querySnapshot = await getDocs(clientsQuery);
+      const fetchedClients = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+
+      if (querySnapshot.docs.length > 0) {
+        setLastVisible(querySnapshot.docs[querySnapshot.docs.length - 1]);
+      }
+
+      setClients(loadMore ? [...clients, ...fetchedClients] : fetchedClients);
+      setHasMore(querySnapshot.docs.length > 0);
+    } catch (error) {
+      console.error("Error fetching clients:", error);
+    }
+    setLoading(false);
+  };
 
   useEffect(() => {
-    const fetchClients = async () => {
-      try {
-        const clientsQuery = query(collection(db, "clients"), orderBy("createdAt", "desc"));
-        const querySnapshot = await getDocs(clientsQuery);
-        const fetchedClients = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-        setClients(fetchedClients);
-      } catch (error) {
-        console.error("Error fetching clients:", error);
-      }
-    };
-
     fetchClients();
   }, []);
 
@@ -135,9 +149,13 @@ const ClientList = () => {
               ))}
             </tbody>
           </Table>
-          <div className="text-center">
-            <Button variant="primary">Load More</Button>
-          </div>
+          {hasMore && (
+            <div className="text-center">
+              <Button variant="primary" onClick={() => fetchClients(true)} disabled={loading}>
+                {loading ? 'Loading...' : 'Load More'}
+              </Button>
+            </div>
+          )}
         </Container>
       </div>
     </div>
