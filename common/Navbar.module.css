@@ -1,0 +1,33 @@
+.navbar {
+  width: 100%;
+  display: flex;
+  padding-top: 0.75rem; /* Equivalent to pt-3 in Tailwind */
+  padding-bottom: 1.5rem; /* Equivalent to pb-6 in Tailwind */
+  align-items: center;
+  justify-content: center;
+}
+
+.logoWrapper {
+  width: 8.333333%; /* Equivalent to w-1/12 in Tailwind */
+  display: flex;
+  justify-content: center;
+}
+
+.navContent {
+  width: 91.666667%; /* Equivalent to w-11/12 in Tailwind */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.adminText {
+  color: #023A51;
+  font-size: 1.5rem; /* Equivalent to text-2xl in Tailwind */
+  font-weight: bold;
+}
+
+.searchIcon {
+  margin-right: 0.75rem; /* Equivalent to mr-3 in Tailwind */
+  margin-left: 0.75rem; /* Equivalent to ml-3 in Tailwind */
+}
+    

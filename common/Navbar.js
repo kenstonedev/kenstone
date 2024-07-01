@@ -1,22 +1,27 @@
 import Image from "next/image";
 import React from "react";
 import { IoSearch } from "react-icons/io5";
+import styles from "./Navbar.module.css"; // Import the CSS module
 
 const Navbar = () => {
-  return (
-    <div className="w-full flex pt-3 pb-6 items-center justify-center">
-      <div className="w-1/12 flex justify-center">
-        <Image src="/kenstone-logo.png" alt="image" width={50} height={50} />
-      </div>
-      <div className="flex w-11/12 justify-between items-center">
-        <div className="text-[#023A51] text-2xl font-bold ">Admin</div>
-        <div className="mr-3 ml-3">
-
-        <IoSearch size={30}/>
+    return (
+        <div className={styles.navbar}>
+            <div className={styles.logoWrapper}>
+                <Image
+                    src="/images/kenstone-logo.png"
+                    alt="image"
+                    width={50}
+                    height={50}
+                />
+            </div>
+            <div className={styles.navContent}>
+                <div className={styles.adminText}>Admin</div>
+                <div className={styles.searchIcon}>
+                    <IoSearch size={30} />
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default Navbar;
